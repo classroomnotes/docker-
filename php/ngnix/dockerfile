@@ -1,0 +1,15 @@
+# Base image
+FROM ubuntu:22.04
+LABEL author="Anil" organization="qualitythought"
+# Define variables
+ARG DEBIAN_FRONTEND=noninteractive
+# Install nginx and other required packages
+RUN apt update && apt install nginx -y
+RUN apt install php8.1-fpm -y
+RUN chmod -R 777 /var/www/html
+RUN	echo "<? php phpinfo();?>" > /var/www/html/info.php
+RUN service nginx restart
+# Expose port 80
+EXPOSE 80
+# Start Nginx and PHP-FPM
+CMD ["nginx","-g", "daemon off;"]
